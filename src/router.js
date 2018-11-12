@@ -1,16 +1,25 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
+import Login from './views/Login.vue'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
+	{
+		path:'/',
+		name:'login',
+		component:Login
+	},
     {
-      path: '/',
-      name: 'home',
+      path: '/home',
+	  name: 'home',
+	  meta:{
+		require_auth:true
+	  },
       component: Home
     },
     {
@@ -23,3 +32,16 @@ export default new Router({
     }
   ]
 })
+
+router.beforeEach((to,from,next)=>{
+	if(to.matched.some(item=>item.meta.require_auth)){
+		//查看是否有token，否则就登录
+		localStorage.flutter_token?next():next({path:'/',query:{redirect:to.fullPath}})
+	}else{
+		next()
+	}
+})
+
+
+
+export default router
