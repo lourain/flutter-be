@@ -32,20 +32,16 @@ export default {
   .el-container {
     width: 100%;
     height: 100%;
+    flex-direction: column;
     .el-header {
+    
       text-align: left;
       font-size: 20px;
       line-height: 2.5;
       color: #fff;
       background-color: #10aec2;
 	}
-	.el-main{
-		.el-form{
-			margin: 0 auto;
-			width: 30%;
-			
-		}
-	}
+	
   }
 }
 </style>

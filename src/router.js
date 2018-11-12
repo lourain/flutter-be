@@ -20,7 +20,17 @@ const router = new Router({
 	  meta:{
 		require_auth:true
 	  },
-      component: Home
+      component: Home,
+      children:[
+        {
+            path:'/article',
+            name:'article',
+        },
+        {
+            path:'/pic',
+            name:'pic',
+        },
+      ]
     },
     {
       path: '/about',

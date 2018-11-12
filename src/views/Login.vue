@@ -60,3 +60,15 @@ export default {
   }
 };
 </script>
+<style lang="less">
+.login{
+    .el-main{
+		.el-form{
+			margin: 0 auto;
+			width: 30%;
+			
+		}
+	}
+}
+</style>
+
