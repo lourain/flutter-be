@@ -9,7 +9,6 @@
    </el-aside>
     <el-main>
         <router-view>
-            <ShowDetail></ShowDetail>
         </router-view>
     </el-main>
   </div>
@@ -17,10 +16,10 @@
 
 <script>
 // @ is an alias to /src
-import ShowDetail from "@/components/ShowDetail.vue";
 export default {
   name: "home",
-  components: {}
+  components: {
+  }
 };
 </script>
 <style lang="less">
@@ -34,7 +33,6 @@ export default {
     background: red;
   }
   .el-main{
-      background-color:blueviolet;
   }
 }
 </style>

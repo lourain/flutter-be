@@ -2,6 +2,9 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Login from './views/Login.vue'
+import ArticlePage from './views/ArticlePage.vue'
+import PicPage from './views/PicPage.vue'
+
 
 Vue.use(Router)
 
@@ -23,12 +26,15 @@ const router = new Router({
       component: Home,
       children:[
         {
-            path:'/article',
-            name:'article',
+            path:'article',
+			name:'article',
+			component:ArticlePage
+			
         },
         {
-            path:'/pic',
-            name:'pic',
+            path:'pic',
+			name:'pic',
+			component:PicPage
         },
       ]
     },
