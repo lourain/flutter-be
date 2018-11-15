@@ -14,6 +14,7 @@
 import request from "../request.js";
 const marked = require('marked')
 let hljs = require('highlight.js');
+import 'highlight.js/styles/default.css';
 marked.setOptions({
     renderer: new marked.Renderer(),
     gfm: true,
@@ -60,6 +61,4 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-@import 'highlight.js/styles/default.css';
-
 </style>
