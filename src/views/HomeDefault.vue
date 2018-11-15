@@ -1,35 +1,65 @@
 <template>
 	<div class="home-default">
-		<h1>标题</h1>
-		<div class="tags">
-			<el-tag>标签一</el-tag>
+		<div class="article" v-for="(article,index) in articles" :key="index">
+			<h1>{{article.title}}</h1>
+			<div class="tags">
+				<el-tag v-for="(tag,index) in article.tags" :key="index">{{tag}}</el-tag>
+			</div>
+			<div class="time">{{article.time}}</div>
+			<div class="content" v-html="article.content"></div>
 		</div>
-		<div class="time">1231</div>
-		<div class="content">12313123</div>
 	</div>
 </template>
 <script>
-import request from '../request.js'
-	export default{
-		data(){
-			return {
+import request from "../request.js";
+const marked = require('marked')
+let hljs = require('highlight.js');
+marked.setOptions({
+    renderer: new marked.Renderer(),
+    gfm: true,
+    tables: true,
+    breaks: false,
+    pedantic: false,
+    sanitize: false,
+    smartLists: true,
+    smartypants: false,
+    highlight: function (code, lang) {
+          if (lang && hljs.getLanguage(lang)) {    
+            return hljs.highlight(lang, code, true).value;
+          } else {
+            return hljs.highlightAuto(code).value;
+          }
+      }
+})
+export default {
+  data() {
+    return {
+		articles:[]
+	};
+  },
+  created() {
+    this.getArt();
+  },
+  computed:{
+	  compiledMarkdown(){
+		  return 
+	  }
+  },
+  methods: {
+    getArt() {
+      request("GET", "/fluttering/articles").then(res => {
+		  res.data.forEach(element => {
+			  element.content = marked(element.content || '',{sanitize: true})
+		  });
+		  this.articles = res.data
+		  
 
-			}
-		},
-		created() {
-			this.getArt()
-		},
-		methods:{
-			getArt(){
-				request('GET','/fluttering/articles')
-					.then(data=>{
-						console.log(data);
-						
-					})
-			}
-		}
-	}
+      });
+    }
+  }
+};
 </script>
 <style lang="less" scoped>
+@import 'highlight.js/styles/default.css';
 
 </style>
