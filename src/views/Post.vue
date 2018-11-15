@@ -35,7 +35,7 @@ export default {
           "Content-Type": "application/json"
         }
       };
-      fetch("/fluttering/publicArticle", opts)
+      fetch("/fluttering/post", opts)
         .then(res => {
           return res.json();
         })

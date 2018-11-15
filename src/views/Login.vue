@@ -18,7 +18,7 @@
 
 <script>
 // @ is an alias to /src
-
+import request from '../request'
 export default {
   name: "login",
   components: {},
@@ -36,26 +36,12 @@ export default {
   },
   methods: {
     submitLogin(params) {
-      let opts = {
-        method: "POST",
-        body: JSON.stringify(params),
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json"
-        }
-      };
-      fetch("/fluttering/login", opts)
-        .then(res => {
-          return res.json();
-        })
+      request("POST","/fluttering/login",params)
         .then(data => {
           console.log(data);
 		  localStorage.flutter_token = data.token;
-		   this.$router.push('home');  
+		   this.$router.push('/'); 
         })
-        .catch(err => {
-          console.log(err);
-        });
     }
   }
 };
