@@ -6,7 +6,7 @@
 				<el-tag v-for="(tag,index) in article.tags" :key="index">{{tag}}</el-tag>
 			</div>
 			<div class="time">{{article.time}}</div>
-			<div class="content" v-html="article.content"></div>
+			<div class="markdown" v-html="article.content"></div>
 		</div>
 	</div>
 </template>
@@ -14,7 +14,7 @@
 import request from "../request.js";
 const marked = require('marked')
 let hljs = require('highlight.js');
-import 'highlight.js/styles/default.css';
+import 'highlight.js/styles/atom-one-dark.css';
 marked.setOptions({
     renderer: new marked.Renderer(),
     gfm: true,
@@ -61,4 +61,23 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+	.home-default{
+		.article{
+			.tags,.time{
+				box-sizing: border-box;
+				padding: 0 2em;
+				text-align: left;
+				margin: 10px 0;
+			}
+			.markdown{
+				text-align: left;
+				text-indent: 2em;
+				color:cornflowerblue;
+				p{
+					color:red;
+				}
+			}
+			
+		}
+	}
 </style>
