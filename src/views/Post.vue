@@ -16,6 +16,7 @@
 </template>
 <script>
 import request from '../request'
+import { log } from 'util';
 export default {
   data() {
     return {
@@ -26,12 +27,22 @@ export default {
       }
     };
   },
+  created() {
+      this.editValue()
+  },
   methods: {
-    
+    editValue() {
+        request('GET',`/fluttering/edit${location.search}`)
+            .then(data=>{
+                console.log(data);
+                this.article = data.data
+            })
+    },
     sendData(params) {
         request('POST','/fluttering/post',params)
             .then(data=>{
-                res.json({"code":0,"data":data})
+                console.log(data);
+                
             })
     }
   }
