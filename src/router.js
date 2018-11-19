@@ -4,7 +4,7 @@ import Home from './views/Home.vue'
 import Login from './views/Login.vue'
 import Post from './views/Post.vue'
 import PicPage from './views/PicPage.vue'
-import HomeDefault from './views/HomeDefault.vue'
+import OverView from './views/OverView.vue'
 
 
 Vue.use(Router)
@@ -27,12 +27,12 @@ const router = new Router({
 			children: [
 				{
 					path:'',
-					name:'home-default',
-					component:HomeDefault
+					name:'OverView',
+					component:OverView
 				},
 				{
-					path: 'article',
-					name: 'article',
+					path: 'post',
+					name: 'post',
 					component: Post
 				},
 				{

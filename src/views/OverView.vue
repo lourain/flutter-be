@@ -1,7 +1,7 @@
 <template>
-	<div class="home-default">
+	<div class="over-view">
 		<div class="article" v-for="(article,index) in articles" :key="index">
-			<h1>{{article.title}}</h1>
+			<a href="/detail"><h1>{{article.title}}</h1></a>
 			<div class="tags">
 				<el-tag v-for="(tag,index) in article.tags" :key="index">{{tag}}</el-tag>
 			</div>
@@ -60,9 +60,13 @@ export default {
   }
 };
 </script>
-<style lang="less" scoped>
-	.home-default{
+<style lang="less">
+	.over-view{
 		.article{
+			a{
+				text-decoration: none;
+				color: #666;
+			}
 			.tags,.time{
 				box-sizing: border-box;
 				padding: 0 2em;
@@ -71,10 +75,14 @@ export default {
 			}
 			.markdown{
 				text-align: left;
-				text-indent: 2em;
-				color:cornflowerblue;
+				// text-indent: 2em;
+				color:#666;
+				pre{
+					margin: 15px 0;
+					background:rgba(0, 0, 0, .1);
+				}
 				p{
-					color:red;
+					margin: 15px 0;
 				}
 			}
 			
