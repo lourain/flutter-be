@@ -5,6 +5,7 @@ import Login from './views/Login.vue'
 import Post from './views/Post.vue'
 import PicPage from './views/PicPage.vue'
 import OverView from './views/OverView.vue'
+import Article from './views/Article.vue'
 
 
 Vue.use(Router)
@@ -40,6 +41,11 @@ const router = new Router({
 					name: 'pic',
 					component: PicPage
 				},
+				{
+					path:'article',
+					name:'article',
+					component:Article
+				}
 			]
 		},
 		{
