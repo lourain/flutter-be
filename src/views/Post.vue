@@ -15,6 +15,7 @@
 	</div>	
 </template>
 <script>
+import request from '../request'
 export default {
   data() {
     return {
@@ -26,25 +27,12 @@ export default {
     };
   },
   methods: {
+    
     sendData(params) {
-      let opts = {
-        method: "POST",
-        body: JSON.stringify(params),
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json"
-        }
-      };
-      fetch("/fluttering/post", opts)
-        .then(res => {
-          return res.json();
-        })
-        .then(data => {
-          console.log(data);
-        })
-        .catch(err => {
-          console.log(err);
-        });
+        request('POST','/fluttering/post',params)
+            .then(data=>{
+                res.json({"code":0,"data":data})
+            })
     }
   }
 };
