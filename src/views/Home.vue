@@ -3,7 +3,7 @@
     <el-aside width="200px">
        <ul>
 		   <li><router-link to="/">主页</router-link></li>
-           <li><router-link to="/article">文章</router-link></li>
+           <li><router-link to="/post">文章</router-link></li>
            <li><router-link to="/pic">图片</router-link></li>
            <li><router-link to="/log">日志</router-link></li>
        </ul>
@@ -32,8 +32,6 @@ export default {
   .el-aside {
     height: 100%;
     background: red;
-  }
-  .el-main{
   }
 }
 </style>

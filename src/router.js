@@ -45,9 +45,15 @@ const router = new Router({
 					path:'article',
 					name:'article',
 					component:Article
+				},
+				{
+					path:'edit',
+					name:'edit',
+					component:Post
 				}
 			]
 		},
+		
 		{
 			path: '/about',
 			name: 'about',

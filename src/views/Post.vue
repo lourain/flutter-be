@@ -15,6 +15,7 @@
 	</div>	
 </template>
 <script>
+import request from '../request'
 export default {
   data() {
     return {
@@ -25,26 +26,23 @@ export default {
       }
     };
   },
+  created() {
+	  this.editData()
+  },
   methods: {
+	editData() {
+		let id = location.href.split('=')[1]
+		request('GET',`/fluttering/edit?id=${id}`)
+			.then(res=>{
+				this.article = res.data
+				
+			})
+	},
     sendData(params) {
-      let opts = {
-        method: "POST",
-        body: JSON.stringify(params),
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json"
-        }
-      };
-      fetch("/fluttering/post", opts)
-        .then(res => {
-          return res.json();
-        })
-        .then(data => {
-          console.log(data);
-        })
-        .catch(err => {
-          console.log(err);
-        });
+		request('POST','/fluttering/post',params)
+			.then(res=>{
+				alert(res.msg)
+			})
     }
   }
 };
