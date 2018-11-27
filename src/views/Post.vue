@@ -15,7 +15,7 @@
 	</div>	
 </template>
 <script>
-import request from '../request'
+import request from "../request";
 export default {
   data() {
     return {
@@ -23,27 +23,37 @@ export default {
         title: "",
         tags: [],
         content: ""
-      }
+      },
+      id: ""
     };
   },
   created() {
-	  this.editData()
+    this.editData();
   },
   methods: {
-	editData() {
-		let id = location.href.split('=')[1]
-		request('GET',`/fluttering/edit?id=${id}`)
-			.then(res=>{
-				this.article = res.data
-				
-			})
-	},
+    editData() {
+      this.id = location.href.split("=")[1];
+      request("GET", `/fluttering/edit?id=${this.id}`).then(res => {
+        this.article = res.data;
+      });
+    },
     sendData(params) {
-		request('POST','/fluttering/post',params)
-			.then(res=>{
-				alert(res.msg)
-			})
+      request("POST", `/fluttering/post`, params).then(res => {
+		// alert(res.msg);
+		this.msgBox()
+      });
     }
+  },
+  msgBox() {
+    this.$alert("这是一段内容", "标题名称", {
+      confirmButtonText: "确定",
+      callback: action => {
+        this.$message({
+          type: "info",
+          message: `action: ${action}`
+        });
+      }
+    });
   }
 };
 </script>
