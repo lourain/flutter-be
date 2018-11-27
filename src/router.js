@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Login from './views/Login.vue'
 import Post from './views/Post.vue'
-import PicPage from './views/PicPage.vue'
+import Upload from './views/Upload.vue'
 import OverView from './views/OverView.vue'
 import Article from './views/Article.vue'
 
@@ -39,7 +39,7 @@ const router = new Router({
 				{
 					path: 'pic',
 					name: 'pic',
-					component: PicPage
+					component: Upload
 				},
 				{
 					path:'article',
@@ -50,7 +50,8 @@ const router = new Router({
 					path:'edit',
 					name:'edit',
 					component:Post
-				}
+				},
+
 			]
 		},
 		

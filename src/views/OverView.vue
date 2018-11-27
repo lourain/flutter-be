@@ -1,5 +1,9 @@
 <template>
 	<div class="over-view">
+		<div class="search">
+			<input type="text">
+			
+		</div>
 		<div class="article" v-for="(titles,index) in titles" :key="index">
 			<a :href="'/article?id=' + titles._id">{{titles.title}}</a>
 		</div>
@@ -19,13 +23,16 @@ export default {
   methods: {
     getArt() {
       request("GET", "/fluttering/titles").then(res => {
-		  console.log(res);
 		  this.titles = res.data
       });
     }
   }
 };
 </script>
-<style lang="less">
-	
+<style lang="less" scope>
+	.over-view{
+		.article{
+			text-align: left;
+		}
+	}
 </style>
