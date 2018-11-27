@@ -13,7 +13,7 @@ var request = (method,url,params) => {
 				return res.json();
 			})
 			.catch(err => {
-				console.log(err);
+				console.error(err);
 			});
 }
 export default request

@@ -7,7 +7,7 @@
 			</div>
 			<div class="ctrl">
 				<a class="edit" :href="'/edit?id='+article._id">编辑</a>
-				<a class="remove" href="/remove">删除</a>
+				<a class="remove" href="javascript:;" @click="remove(article._id)">删除</a>
 			</div>
 			<div class="time">{{article.time}}</div>
 			<div class="markdown" v-html="article.content"></div>
@@ -54,6 +54,20 @@ export default {
           element.content = marked(element.content || "", { sanitize: true });
         });
         this.articles = res.data;
+      });
+	},
+	remove(id) {
+		request('DELETE',`/fluttering/del/${id}`)
+			.then(res=>{
+				this.msgBox(res.msg)
+			})
+	},
+	 msgBox(msg) {
+      this.$alert(msg, "提示", {
+        confirmButtonText: "确定",
+        callback: action => {
+        	this.$router.push('/')
+        }
       });
     }
   }

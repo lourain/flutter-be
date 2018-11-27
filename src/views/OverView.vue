@@ -16,9 +16,6 @@ export default {
   created() {
     this.getArt();
   },
-  computed:{
-	  
-  },
   methods: {
     getArt() {
       request("GET", "/fluttering/titles").then(res => {
