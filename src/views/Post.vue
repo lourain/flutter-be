@@ -16,6 +16,7 @@
 </template>
 <script>
 import request from "../request";
+
 export default {
   data() {
     return {
@@ -39,21 +40,17 @@ export default {
     },
     sendData(params) {
       request("POST", `/fluttering/post`, params).then(res => {
-		// alert(res.msg);
-		this.msgBox()
+        this.msgBox(res.msg)
+      });
+    },
+    msgBox(msg) {
+      this.$alert(msg, "提示", {
+        confirmButtonText: "确定",
+        callback: action => {
+        	this.$router.push('/')
+        }
       });
     }
-  },
-  msgBox() {
-    this.$alert("这是一段内容", "标题名称", {
-      confirmButtonText: "确定",
-      callback: action => {
-        this.$message({
-          type: "info",
-          message: `action: ${action}`
-        });
-      }
-    });
   }
 };
 </script>
