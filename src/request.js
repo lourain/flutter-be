@@ -1,11 +1,11 @@
 
-var request = (method,url,params) => {
+var request = (method,url,params,ctype) => {
 	let opts = {
         method: method,
         body: JSON.stringify(params),
         mode: "cors",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": ctype || "application/json"
         }
       };
 	return fetch(url, opts)
