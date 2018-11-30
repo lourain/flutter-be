@@ -11,6 +11,7 @@
 </template>
 <script>
 import request from "../request.js";
+const FAIL = 1111
 export default {
   data() {
     return {
@@ -23,7 +24,20 @@ export default {
   methods: {
     getArt() {
       request("GET", "/fluttering/titles").then(res => {
-		  this.titles = res.data
+		if(res.code===FAIL){
+			this.msgBox(res.msg)			
+		}else{
+			this.titles = res.data
+		}
+		  
+      });
+	},
+	msgBox(msg) {
+      this.$alert(msg, "提示", {
+        confirmButtonText: "确定",
+        callback: action => {
+        	this.$router.push('/login')
+        }
       });
     }
   }

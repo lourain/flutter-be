@@ -34,20 +34,23 @@ export default {
   methods: {
     editData() {
       this.id = location.href.split("=")[1];
-      request("GET", `/fluttering/edit?id=${this.id}`).then(res => {
-        this.article = res.data;
-      });
+      this.id &&
+        request("GET", `/fluttering/edit?id=${this.id}`).then(res => {
+          this.article = res.data;
+        });
     },
     sendData(params) {
       request("POST", `/fluttering/post`, params).then(res => {
-        this.msgBox(res.msg)
+        console.log(res);
+
+        this.msgBox(res.msg);
       });
     },
     msgBox(msg) {
       this.$alert(msg, "提示", {
         confirmButtonText: "确定",
         callback: action => {
-        	this.$router.push('/')
+          this.$router.push("/");
         }
       });
     }
@@ -55,6 +58,4 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.article-page {
-}
 </style>

@@ -1,7 +1,7 @@
 <template>
 	<div class="upload" >
 		<form ref="myform">
-			<input type="file" name="file1"  multiple ><br>
+			<input type="file" name="file1"  multiple @change="readFile"><br>
 			<div class="process-line">
 				<div class="process" :style="{'width':progressWidth+'%'}"></div>
 			</div>
@@ -13,12 +13,14 @@
 export default {
   data() {
     return {
-      progressWidth: 0,
-	  loaded:0,
-	  total:0
+      progressWidth: 0
     };
   },
   methods: {
+    readFile(e) {
+		console.log(e);
+		
+	},
     postData(e) {
       e.preventDefault();
       let formList = new FormData(this.$refs.myform);
@@ -26,7 +28,7 @@ export default {
       xhr.open("post", "/fluttering/upload", true);
       xhr.upload.onprogress = function(e) {
         this.progressWidth = (e.loaded / e.total) * 100;
-	  }.bind(this)
+      }.bind(this);
       xhr.send(formList);
       xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {

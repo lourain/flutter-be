@@ -1,11 +1,12 @@
 
-var request = (method,url,params,ctype) => {
+var request = (method,url,params) => {
 	let opts = {
         method: method,
         body: JSON.stringify(params),
         mode: "cors",
         headers: {
-          "Content-Type": ctype || "application/json"
+		  "Content-Type": "application/json",
+		  "Authorization":localStorage.flutter_token
         }
       };
 	return fetch(url, opts)
@@ -14,6 +15,7 @@ var request = (method,url,params,ctype) => {
 			})
 			.catch(err => {
 				console.error(err);
+				
 			});
 }
 export default request

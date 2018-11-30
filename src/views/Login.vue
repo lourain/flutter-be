@@ -38,10 +38,23 @@ export default {
     submitLogin(params) {
       request("POST","/fluttering/login",params)
         .then(data => {
-          console.log(data);
+			console.log(data);
+			
+		  const SUCCESS = 0
+		  if(data.code !== SUCCESS ){
+			  return this.msgBox(data.msg)
+		  }
 		  localStorage.flutter_token = data.token;
 		   this.$router.push('/'); 
         })
+	},
+	msgBox(msg) {
+      this.$alert(msg, "提示", {
+        confirmButtonText: "确定",
+        callback: action => {
+        	this.$router.push('/')
+        }
+      });
     }
   }
 };
