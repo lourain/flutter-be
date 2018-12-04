@@ -29,19 +29,24 @@ export default {
       xhr.upload.onprogress = function(e) {
         this.progressWidth = (e.loaded / e.total) * 100;
       }.bind(this);
+      xhr.setRequestHeader("Authorization",localStorage.flutter_token)
       xhr.send(formList);
       xhr.onreadystatechange = () => {
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
           let res = JSON.parse(xhr.responseText);
-          this.msgBox(res.msg);
+          this.msgBox(res.msg,'/');
+        }
+        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 401) {
+          let res = JSON.parse(xhr.responseText);
+          this.msgBox(res.msg,'/login');
         }
       };
     },
-    msgBox(msg) {
+    msgBox(msg,path) {
       this.$alert(msg, "提示", {
         confirmButtonText: "确定",
         callback: action => {
-          this.$router.push("/");
+          this.$router.push(path);
         }
       });
     }
