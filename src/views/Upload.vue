@@ -10,6 +10,8 @@
 	</div>
 </template>
 <script>
+import request from '../request'
+const EXPIRED = 1111
 export default {
   data() {
     return {
@@ -25,23 +27,33 @@ export default {
       e.preventDefault();
       let formList = new FormData(this.$refs.myform);
       const xhr = new XMLHttpRequest();
-      xhr.open("post", "/fluttering/upload", true);
+	  xhr.open("post", "/fluttering/upload", true);
+	  
       xhr.upload.onprogress = function(e) {
         this.progressWidth = (e.loaded / e.total) * 100;
-      }.bind(this);
-      xhr.send(formList);
+	  }.bind(this);
+	  xhr.setRequestHeader("Authorization",localStorage.flutter_token)
+	  
+	  xhr.send(formList);
+	  
       xhr.onreadystatechange = () => {
+		  console.log(xhr.readyState);
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-          let res = JSON.parse(xhr.responseText);
-          this.msgBox(res.msg);
-        }
-      };
+			let res = JSON.parse(xhr.responseText)
+			this.msgBox(res.msg,'/');
+		}
+		if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 401){
+			let res = JSON.parse(xhr.responseText);
+			this.msgBox(res.msg,'/login')
+		}
+	  };
+
     },
-    msgBox(msg) {
+    msgBox(msg,path) {
       this.$alert(msg, "提示", {
         confirmButtonText: "确定",
         callback: action => {
-          this.$router.push("/");
+          this.$router.push(path);
         }
       });
     }
