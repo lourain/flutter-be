@@ -11,7 +11,7 @@
 </template>
 <script>
 import request from "../request.js";
-const FAIL = 1111
+const EXPIRED = 1111
 export default {
   data() {
     return {
@@ -24,12 +24,12 @@ export default {
   methods: {
     getArt() {
       request("GET", "/fluttering/titles").then(res => {
-		if(res.code===FAIL){
-			this.msgBox(res.msg)			
+		if(res.code===EXPIRED){
+			this.msgBox(res.msg,'/login')			
 		}else{
 			this.titles = res.data
 		}
-		  
+		
       });
 	},
 	msgBox(msg) {
