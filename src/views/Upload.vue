@@ -7,21 +7,31 @@
 			</div>
 			<input type="submit" value="上传" @click="postData">
 		</form>
+
+        <img  alt="" v-for="(src,index) in srcs" :key="index" :src="src">
+
 	</div>
 </template>
 <script>
 import request from '../request'
+import { log, isObject } from 'util';
 const EXPIRED = 1111
 export default {
   data() {
     return {
-      progressWidth: 0
+      progressWidth: 0,
+      srcs:[]
     };
   },
   methods: {
     readFile(e) {
-		console.log(e);
-		
+        let files = e.target.files
+        
+        for (const file of files) {
+            this.srcs.push(URL.createObjectURL(file))
+        }
+        
+        
 	},
     postData(e) {
       e.preventDefault();
@@ -59,6 +69,12 @@ export default {
 </script>
 <style lang="less" scope>
 .upload {
+    text-align: left;
+    form{
+        input{
+            margin: 30px;
+        }
+    }
   .process-line {
     width: 100px;
     height: 3px;
@@ -68,6 +84,10 @@ export default {
       height: 100%;
       background: skyblue;
     }
+  }
+  img{
+      width: 100px;
+      margin-right: 10px;
   }
 }
 </style>
