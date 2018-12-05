@@ -16,6 +16,7 @@
 </template>
 <script>
 import request from "../request.js";
+const EXPIRED = 1111
 const marked = require("marked");
 let hljs = require("highlight.js");
 import "highlight.js/styles/atom-one-dark.css";
@@ -49,7 +50,9 @@ export default {
     getArt() {
       request("GET", `/fluttering/article/${location.search}`).then(res => {
         console.log(res);
-
+        if(res.code === EXPIRED){
+            return this.msgBox(res.msg)
+        }
         res.data.forEach(element => {
           element.content = marked(element.content || "", { sanitize: true });
         });

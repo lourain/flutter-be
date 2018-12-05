@@ -11,6 +11,7 @@
 </template>
 <script>
 import request from "../request.js";
+const marked = require('marked')
 const EXPIRED = 1111
 export default {
   data() {
