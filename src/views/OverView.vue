@@ -7,6 +7,7 @@
 		<div class="article" v-for="(titles,index) in titles" :key="index">
 			<a :href="'/article?id=' + titles._id">{{titles.title}}</a>
 		</div>
+        <img src="/20180725.jpg" alt="">
 	</div>
 </template>
 <script>
