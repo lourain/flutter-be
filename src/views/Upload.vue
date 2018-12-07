@@ -1,7 +1,15 @@
 <template>
 	<div class="upload" >
 		<form ref="myform">
-			<input type="file" name="file1"  multiple @change="readFile"><br>
+            相册名：<el-button type="primary" @click="createAlbum">{{album_name?album_name:'新建相册'}}</el-button><br/>
+            <input type="hidden" name="album_name" :value="album_name">
+            <div v-show="!album_name">
+                选择已有相册：<select name="album_name" id="" >
+                    <option value="shanghai">上海</option>
+                    <option value="suzhou">苏州</option>
+                </select><br/>
+            </div>
+			上传照片：<input type="file" name="file1"  multiple @change="readFile"><br>
 			<div class="process-line">
 				<div class="process" :style="{'width':progressWidth+'%'}"></div>
 			</div>
@@ -13,50 +21,67 @@
 	</div>
 </template>
 <script>
-import request from '../request'
-import { log, isObject } from 'util';
-const EXPIRED = 1111
+import request from "../request";
+import { log, isObject } from "util";
+const EXPIRED = 1111;
 export default {
   data() {
     return {
       progressWidth: 0,
-      srcs:[]
+      srcs: [],
+      album_name: ""
     };
   },
+  created(){
+
+  },
   methods: {
+    getAlbum(){
+        
+    },
     readFile(e) {
-        let files = e.target.files
-        
-        for (const file of files) {
-            this.srcs.push(URL.createObjectURL(file))
-        }
-        
-        
-	},
+      let files = e.target.files;
+      for (const file of files) {
+        this.srcs.push(URL.createObjectURL(file));
+      }
+    },
     postData(e) {
       e.preventDefault();
       let formList = new FormData(this.$refs.myform);
       const xhr = new XMLHttpRequest();
-	  xhr.open("post", "/fluttering/upload", true);
-	  
+      xhr.open("post", "/fluttering/upload", true);
+
       xhr.upload.onprogress = function(e) {
         this.progressWidth = (e.loaded / e.total) * 100;
       }.bind(this);
-      xhr.setRequestHeader("Authorization",localStorage.flutter_token)
+      xhr.setRequestHeader("Authorization", localStorage.flutter_token);
       xhr.send(formList);
       xhr.onreadystatechange = () => {
-		  console.log(xhr.readyState);
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
           let res = JSON.parse(xhr.responseText);
-          this.msgBox(res.msg,'/');
+          this.msgBox(res.msg, "/");
         }
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 401) {
           let res = JSON.parse(xhr.responseText);
-          this.msgBox(res.msg,'/login');
+          this.msgBox(res.msg, "/login");
         }
       };
     },
-    msgBox(msg,path) {
+    createAlbum() {
+      this.$prompt("请输入新建相册名称", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        inputPattern: /^\S+/,
+        inputErrorMessage: "不能为空"
+      }).then(({ value }) => {
+        this.album_name = value;
+        this.$message({
+          type: "success",
+          message: "相册名: " + value
+        });
+      });
+    },
+    msgBox(msg, path) {
       this.$alert(msg, "提示", {
         confirmButtonText: "确定",
         callback: action => {
@@ -69,12 +94,12 @@ export default {
 </script>
 <style lang="less" scope>
 .upload {
-    text-align: left;
-    form{
-        input{
-            margin: 30px;
-        }
+  text-align: left;
+  form {
+    input {
+      margin: 30px;
     }
+  }
   .process-line {
     width: 100px;
     height: 3px;
@@ -85,9 +110,9 @@ export default {
       background: skyblue;
     }
   }
-  img{
-      width: 100px;
-      margin-right: 10px;
+  img {
+    width: 100px;
+    margin-right: 10px;
   }
 }
 </style>
