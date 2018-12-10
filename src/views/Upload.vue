@@ -3,10 +3,10 @@
 		<form ref="myform">
             相册名：<el-button type="primary" @click="createAlbum">{{album_name?album_name:'新建相册'}}</el-button><br/>
             <input type="hidden" name="album_name" :value="album_name">
-            <div v-show="!album_name">
+            <div v-show="!album_name && albums_list.length">
                 选择已有相册：<select name="album_name" id="" >
-                    <option value="shanghai">上海</option>
-                    <option value="suzhou">苏州</option>
+
+                    <option :value="album.album_name" v-for="(album,index) in albums_list" :key="index">{{album.album_name}}</option>
                 </select><br/>
             </div>
 			上传照片：<input type="file" name="file1"  multiple @change="readFile"><br>
@@ -29,15 +29,21 @@ export default {
     return {
       progressWidth: 0,
       srcs: [],
-      album_name: ""
+      album_name: "",
+      albums_list:[]
     };
   },
   created(){
-
+      this.getAlbum()
   },
   methods: {
     getAlbum(){
-        
+        request('get','/fluttering/albums')
+            .then(albums=>{
+                this.albums_list = albums.data
+                console.log(albums);
+
+            })
     },
     readFile(e) {
       let files = e.target.files;
