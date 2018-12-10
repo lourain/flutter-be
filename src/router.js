@@ -6,6 +6,8 @@ import Post from './views/Post.vue'
 import Upload from './views/Upload.vue'
 import OverView from './views/OverView.vue'
 import Article from './views/Article.vue'
+import Album from './views/Album.vue'
+import Photos from './views/Photos.vue'
 
 
 Vue.use(Router)
@@ -50,7 +52,17 @@ const router = new Router({
 					path:'edit',
 					name:'edit',
 					component:Post
-				},
+                },
+                {
+                    path:'album',
+                    component:Album,
+                    children:[
+                        {
+                            path:'photo',
+                            component:Photos
+                        }
+                    ]
+                }
 
 			]
 		},

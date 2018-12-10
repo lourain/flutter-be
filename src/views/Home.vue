@@ -5,7 +5,7 @@
 		   <li><router-link to="/">主页</router-link></li>
            <li><router-link to="/post">文章</router-link></li>
            <li><router-link to="/pic">图片</router-link></li>
-           <li><router-link to="/log">日志</router-link></li>
+           <li><router-link to="/album">相册</router-link></li>
        </ul>
    </el-aside>
     <el-main>
