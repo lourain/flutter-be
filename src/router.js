@@ -56,12 +56,10 @@ const router = new Router({
                 {
                     path:'album',
                     component:Album,
-                    children:[
-                        {
-                            path:'photo',
-                            component:Photos
-                        }
-                    ]
+                },
+                {
+                    path:'photo',
+                    component:Photos
                 }
 
 			]

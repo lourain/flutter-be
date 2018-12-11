@@ -2,8 +2,10 @@
     <div class="album">
         <ul>
             <li v-for="(album, index) in albums" :key="index">
-                <img class="cover-pic" :src="'http://localhost:9999'+album.urls[0]" width="100px"/>
-                <div class="album-name">{{album.album_name}}</div>
+                <router-link :to="'/photo?id='+album._id">
+                    <img class="cover-pic" :src="'http://localhost:9999'+album.urls[0]" width="100px"/>
+                    <div class="album-name">{{album.album_name}}</div>
+                </router-link>
             </li>
         </ul>
     </div>
@@ -22,8 +24,19 @@ export default {
   methods: {
     showAlbums() {
       request("get", "/fluttering/albums").then(res => {
+          if(res.code===1111){
+              this.msgBox(res.msg,'/login')
+          }
         this.albums = res.data;
-        console.log(this.albums);
+        
+      });
+    },
+    msgBox(msg, path) {
+      this.$alert(msg, "提示", {
+        confirmButtonText: "确定",
+        callback: action => {
+          this.$router.push(path);
+        }
       });
     }
   }
