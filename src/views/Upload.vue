@@ -1,24 +1,29 @@
 <template>
-	<div class="upload" >
-		<form ref="myform">
-            相册名：<el-button type="primary" @click="createAlbum">{{album_name?album_name:'新建相册'}}</el-button><br/>
-            <input type="hidden" name="album_name" :value="album_name">
-            <div v-show="!album_name && albums_list.length">
-                选择已有相册：<select name="album_name" id="" >
+  <div class="upload">
+    <form ref="myform">相册名：
+      <el-button type="primary" @click="createAlbum">{{album_name?album_name:'新建相册'}}</el-button>
+      <br>
+      <input type="hidden" name="album_name" :value="album_name">
+      <div v-show="!album_name && albums_list.length">选择已有相册：
+        <select name="album_name" id>
+          <option
+            :value="album.album_name"
+            v-for="(album,index) in albums_list"
+            :key="index"
+          >{{album.album_name}}</option>
+        </select>
+        <br>
+      </div>上传照片：
+      <input type="file" name="file1" multiple @change="readFile">
+      <br>
+      <div class="process-line">
+        <div class="process" :style="{'width':progressWidth+'%'}"></div>
+      </div>
+      <input type="submit" value="上传" @click="postData">
+    </form>
 
-                    <option :value="album.album_name" v-for="(album,index) in albums_list" :key="index">{{album.album_name}}</option>
-                </select><br/>
-            </div>
-			上传照片：<input type="file" name="file1"  multiple @change="readFile"><br>
-			<div class="process-line">
-				<div class="process" :style="{'width':progressWidth+'%'}"></div>
-			</div>
-			<input type="submit" value="上传" @click="postData">
-		</form>
-
-        <img  alt="" v-for="(src,index) in srcs" :key="index" :src="src">
-
-	</div>
+    <img alt v-for="(src,index) in srcs" :key="index" :src="src">
+  </div>
 </template>
 <script>
 import request from "../request";
@@ -30,24 +35,25 @@ export default {
       progressWidth: 0,
       srcs: [],
       album_name: "",
-      albums_list:[]
+      albums_list: []
     };
   },
-  created(){
-      this.getAlbum()
+  created() {
+    this.getAlbum();
   },
   methods: {
-    getAlbum(){
-        request('get','/fluttering/albums')
-            .then(albums=>{
-                this.albums_list = albums.data
-                console.log(albums);
-
-            })
+    getAlbum() {
+      request("get", "/fluttering/albums").then(albums => {
+        this.albums_list = albums.data;
+        console.log(albums);
+      });
     },
     readFile(e) {
       let files = e.target.files;
       for (const file of files) {
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        this.compressImg(reader);
         this.srcs.push(URL.createObjectURL(file));
       }
     },
@@ -94,6 +100,30 @@ export default {
           this.$router.push(path);
         }
       });
+    },
+    compressImg(reader) {
+      let canvas = document.createElement("canvas");
+      let ctx = canvas.getContext("2d");
+      let img = new Image();
+
+      reader.onload = function(e) {
+        console.log(e.target.result);
+        img.src = e.target.result;
+        console.log(e.target);
+        
+      };
+      img.onload = function() {
+        let targetwidth = this.width;
+        let targetheight = this.height;
+        let maxWidth,
+          maxHeight = 600;
+        if (this.width / this.height !== maxWidth / maxHeight) {
+          targetheight = canvas.height = maxHeight;
+          targetwidth = canvas.width =
+            (this.width / this.height) * targetheight;
+        }
+        ctx.drawImage(image, 0, 0, targetwidth, targetheight);
+      };
     }
   }
 };
