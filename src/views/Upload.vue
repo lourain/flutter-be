@@ -1,10 +1,12 @@
 <template>
   <div class="upload">
-    <form ref="myform">相册名：
+    <form ref="myform">
+      相册名：
       <el-button type="primary" @click="createAlbum">{{album_name?album_name:'新建相册'}}</el-button>
       <br>
       <input type="hidden" name="album_name" :value="album_name">
-      <div v-show="!album_name && albums_list.length">选择已有相册：
+      <div v-show="!album_name && albums_list.length">
+        选择已有相册：
         <select name="album_name" id>
           <option
             :value="album.album_name"
@@ -28,6 +30,7 @@
 <script>
 import request from "../request";
 import { log, isObject } from "util";
+import { Promise, resolve, reject } from "q";
 const EXPIRED = 1111;
 export default {
   data() {
@@ -35,7 +38,9 @@ export default {
       progressWidth: 0,
       srcs: [],
       album_name: "",
-      albums_list: []
+      albums_list: [],
+      blob_arr: [],
+      less_than_size: []
     };
   },
   created() {
@@ -50,16 +55,30 @@ export default {
     },
     readFile(e) {
       let files = e.target.files;
+      let promise_arr = [];
       for (const file of files) {
-        let reader = new FileReader();
-        reader.readAsDataURL(file);
-        this.compressImg(reader);
         this.srcs.push(URL.createObjectURL(file));
+        //size大于800kb就进行压缩
+        if (file.size >= 800000) {
+          let reader = new FileReader();
+          reader.readAsDataURL(file);
+          promise_arr.push(this.compressImg(reader));
+        } else {
+          this.less_than_size.push(file);
+        }
       }
+
+      Promise.all(promise_arr).then(value => {
+        this.blob_arr = value;
+      });
     },
     postData(e) {
       e.preventDefault();
       let formList = new FormData(this.$refs.myform);
+      formList.delete("file1");
+      [...this.blob_arr, ...this.less_than_size].forEach((blob, index) => {
+        formList.append("file1", blob, Date.now()+ index + ".webp");
+      });
       const xhr = new XMLHttpRequest();
       xhr.open("post", "/fluttering/upload", true);
 
@@ -102,28 +121,34 @@ export default {
       });
     },
     compressImg(reader) {
-      let canvas = document.createElement("canvas");
-      let ctx = canvas.getContext("2d");
-      let img = new Image();
+      return new Promise((resolve, reject) => {
+        let that = this;
+        let canvas = document.createElement("canvas");
+        let ctx = canvas.getContext("2d");
+        let img = new Image();
 
-      reader.onload = function(e) {
-        console.log(e.target.result);
-        img.src = e.target.result;
-        console.log(e.target);
-        
-      };
-      img.onload = function() {
-        let targetwidth = this.width;
-        let targetheight = this.height;
-        let maxWidth,
-          maxHeight = 600;
-        if (this.width / this.height !== maxWidth / maxHeight) {
-          targetheight = canvas.height = maxHeight;
-          targetwidth = canvas.width =
-            (this.width / this.height) * targetheight;
-        }
-        ctx.drawImage(image, 0, 0, targetwidth, targetheight);
-      };
+        reader.onload = function(e) {
+          img.src = e.target.result;
+        };
+
+        img.onload = function() {
+          let targetwidth = this.width;
+          let targetheight = this.height;
+
+          let maxWidth,
+            maxHeight = 800;
+          if (this.width / this.height !== maxWidth / maxHeight) {
+            targetheight = canvas.height = maxHeight;
+            targetwidth = canvas.width =
+              (this.width / this.height) * targetheight;
+          }
+          ctx.drawImage(img, 0, 0, targetwidth, targetheight);
+          canvas.toBlob(blob => {
+            that._blob = blob;
+            resolve(blob);
+          });
+        };
+      });
     }
   }
 };
