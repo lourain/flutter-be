@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     submitLogin(params) {
-      request("POST","/fluttering/login",params)
+      request("POST","/api/login",params)
         .then(data => {
 			console.log(data);
 			

@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     getArt() {
-      request("GET", `/fluttering/article/${location.search}`).then(res => {
+      request("GET", `/api/article/${location.search}`).then(res => {
         console.log(res);
         if(res.code === EXPIRED){
             return this.msgBox(res.msg)
@@ -60,7 +60,7 @@ export default {
       });
 	},
 	remove(id) {
-		request('DELETE',`/fluttering/del/${id}`)
+		request('DELETE',`/api/del/${id}`)
 			.then(res=>{
 				this.msgBox(res.msg)
 			})

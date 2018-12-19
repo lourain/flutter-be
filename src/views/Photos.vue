@@ -18,7 +18,7 @@ import request from "../request"
         },
         methods:{
             getPhotos(id) {
-                request('get', `/fluttering/albums?id=${id}`)
+                request('get', `/api/albums?id=${id}`)
                     .then(res=>{
                         this.photo_url = res.data[0].urls
                     })

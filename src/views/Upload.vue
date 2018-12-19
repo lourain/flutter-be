@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     getAlbum() {
-      request("get", "/fluttering/albums").then(albums => {
+      request("get", "/api/albums").then(albums => {
         this.albums_list = albums.data;
         console.log(albums);
       });
@@ -76,11 +76,12 @@ export default {
       e.preventDefault();
       let formList = new FormData(this.$refs.myform);
       formList.delete("file1");
+      //将压缩的与小于800kib的图片存入数组
       [...this.blob_arr, ...this.less_than_size].forEach((blob, index) => {
         formList.append("file1", blob, Date.now()+ index + ".webp");
       });
       const xhr = new XMLHttpRequest();
-      xhr.open("post", "/fluttering/upload", true);
+      xhr.open("post", "/api/upload", true);
 
       xhr.upload.onprogress = function(e) {
         this.progressWidth = (e.loaded / e.total) * 100;

@@ -35,12 +35,12 @@ export default {
     editData() {
       this.id = location.href.split("=")[1];
       this.id &&
-        request("GET", `/fluttering/edit?id=${this.id}`).then(res => {
+        request("GET", `/api/edit?id=${this.id}`).then(res => {
           this.article = res.data;
         });
     },
     sendData(params) {
-      request("POST", `/fluttering/post`, params).then(res => {
+      request("POST", `/api/post`, params).then(res => {
         console.log(res);
 
         this.msgBox(res.msg);

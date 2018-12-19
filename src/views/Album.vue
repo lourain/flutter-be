@@ -23,7 +23,7 @@ export default {
   },
   methods: {
     showAlbums() {
-      request("get", "/fluttering/albums").then(res => {
+      request("get", "/api/albums").then(res => {
           if(res.code===1111){
               this.msgBox(res.msg,'/login')
           }

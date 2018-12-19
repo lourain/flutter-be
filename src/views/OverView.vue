@@ -25,7 +25,7 @@ export default {
   },
   methods: {
     getArt() {
-      request("GET", "/fluttering/titles").then(res => {
+      request("GET", "/api/titles").then(res => {
 		if(res.code===EXPIRED){
 			this.msgBox(res.msg,'/login')			
 		}else{

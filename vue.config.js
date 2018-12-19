@@ -1,11 +1,9 @@
 module.exports = {
 	devServer:{
 		proxy:{
-			'^/fluttering':{
+			'^/api':{
 				target:'http://localhost:9999',
-				pathRewrite:{
-					'^/fluttering':''
-				}
+				
 			}
 		}
 	}
