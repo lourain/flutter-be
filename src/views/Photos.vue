@@ -1,7 +1,7 @@
 <template>
     <div class="photos">
         
-        <img :src="'http://localhost:9999/'+url" alt="" width="200px" v-for="(url, index) in photo_url" :key="index">
+        <img :src="url" alt="" width="200px" v-for="(url, index) in photo_url" :key="index">
     </div>
 </template>
 <script>
