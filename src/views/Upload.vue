@@ -58,8 +58,8 @@ export default {
       let promise_arr = [];
       for (const file of files) {
         this.srcs.push(URL.createObjectURL(file));
-        //size大于800kb就进行压缩
-        if (file.size >= 800000) {
+        //size大于1m就进行压缩
+        if (file.size >= 1000000) {
           let reader = new FileReader();
           reader.readAsDataURL(file);
           promise_arr.push(this.compressImg(reader));
@@ -76,9 +76,9 @@ export default {
       e.preventDefault();
       let formList = new FormData(this.$refs.myform);
       formList.delete("file1");
-      //将压缩的与小于800kib的图片存入数组
+      //将压缩的与小于1M的图片存入数组
       [...this.blob_arr, ...this.less_than_size].forEach((blob, index) => {
-        formList.append("file1", blob, Date.now()+ index + ".webp");
+        formList.append("file1", blob, Date.now()+ index + ".jpg");
       });
       const xhr = new XMLHttpRequest();
       xhr.open("post", "/api/upload", true);
@@ -137,7 +137,7 @@ export default {
           let targetheight = this.height;
 
           let maxWidth,
-            maxHeight = 800;
+            maxHeight = 400;
           if (this.width / this.height !== maxWidth / maxHeight) {
             targetheight = canvas.height = maxHeight;
             targetwidth = canvas.width =

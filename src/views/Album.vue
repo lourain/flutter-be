@@ -3,7 +3,7 @@
         <ul>
             <li v-for="(album, index) in albums" :key="index">
                 <router-link :to="'/photo?id='+album._id">
-                    <img class="cover-pic" :src="'/image'+album.urls[0]" width="100px"/>
+                    <img class="cover-pic" :src="'/uploads'+album.urls[0]" width="100px"/>
                     <div class="album-name">{{album.album_name}}</div>
                 </router-link>
             </li>
