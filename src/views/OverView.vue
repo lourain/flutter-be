@@ -5,7 +5,7 @@
 			
 		</div>
 		<div class="article" v-for="(titles,index) in titles" :key="index">
-			<a :href="'/article?id=' + titles._id">{{titles.title}}</a>
+            <router-link :to="'/article?id=' + titles._id">{{titles.title}}</router-link>
 		</div>
         <img src="/20180725.jpg" alt="">
 	</div>
