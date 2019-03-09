@@ -6,7 +6,7 @@
 				<el-tag v-for="(tag,index) in article.tags" :key="index">{{tag}}</el-tag>
 			</div>
 			<div class="ctrl">
-				<a class="edit" :href="'/edit?id='+article._id">编辑</a>
+                <router-link :to="'/edit?id='+article._id">编辑</router-link>
 				<a class="remove" href="javascript:;" @click="remove(article._id)">删除</a>
 			</div>
 			<div class="time">{{article.time}}</div>
