@@ -1,5 +1,11 @@
 
 var request = (method,url,params) => {
+    let host = window.location.hostname
+    if(host == 'backend.fluttering.cn'){
+        host = 'https://www.fluttering.cn'
+    }else{
+        host = ''
+    }
 	let opts = {
         method: method,
 		body: JSON.stringify(params),
@@ -11,7 +17,7 @@ var request = (method,url,params) => {
 	  };
 	//   upload?opts.headers["Expect"]="100-continue":null
 	  
-	return fetch(url, opts)
+	return fetch(host+url, opts)
 			.then(res => {
 				return res.json();
 			})
