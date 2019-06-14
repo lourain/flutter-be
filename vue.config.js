@@ -1,5 +1,5 @@
 module.exports = {
-    baseUrl:'/flutter-be/',
+    baseUrl:'./',
 	devServer:{
 		proxy:{
 			'^/api':{
