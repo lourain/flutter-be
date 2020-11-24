@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "element-ui": "^2.4.5",
-    "highlight.js": "^9.13.1",
+    "highlight.js": "^10.1.2",
     "marked": "^0.5.1",
     "mavon-editor": "^2.6.17",
     "vue": "^2.5.17",
