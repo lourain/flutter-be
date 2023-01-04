@@ -18,7 +18,7 @@
   "devDependencies": {
     "@huiji/vue-cli-plugin-markdown": "^1.0.3",
     "@vue/cli-plugin-babel": "^3.1.1",
-    "@vue/cli-service": "^3.1.4",
+    "@vue/cli-service": "^5.0.8",
     "less": "^3.0.4",
     "less-loader": "^4.1.0",
     "vue-cli-plugin-element": "^1.0.0",
